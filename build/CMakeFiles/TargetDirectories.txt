@@ -1,0 +1,4 @@
+C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/udp_server.dir
+C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/udp_client.dir
+C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/ZERO_CHECK.dir

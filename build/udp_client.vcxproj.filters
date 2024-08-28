@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\georg\Desktop\TT\UDP-cross-platform\src\udp_client_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\georg\Desktop\TT\UDP-cross-platform\src\udp_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\georg\Desktop\TT\UDP-cross-platform\src\config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\georg\Desktop\TT\UDP-cross-platform\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{B3EA9790-0678-3A9B-AE64-D00298BCA414}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
