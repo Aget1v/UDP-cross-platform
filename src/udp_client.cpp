@@ -12,10 +12,28 @@ UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& hos
     socket_.open(boost::asio::ip::udp::v4());
 }
 
-void UdpClient::sendRequest(double X) {
-    std::string request = std::to_string(X);
-    socket_.send_to(boost::asio::buffer(request), server_endpoint_);
-    doReceive();
+void UdpClient::sendRequest(double value) {
+    try {
+        std::ostringstream request_stream;
+        request_stream << value;
+        std::string request = request_stream.str();
+
+        // Отправляем запрос на сервер
+        socket_.send_to(boost::asio::buffer(request), server_endpoint_);
+
+        std::cout << "Request sent: " << request << std::endl;  // Отладочное сообщение
+
+        // Ожидаем ответ от сервера
+        const size_t max_length = 1024;  // Определяем максимальный размер буфера
+        char reply[max_length];
+        boost::asio::ip::udp::endpoint sender_endpoint;
+        size_t reply_length = socket_.receive_from(boost::asio::buffer(reply, max_length), sender_endpoint);
+
+        std::cout << "Reply received: " << std::string(reply, reply_length) << std::endl;  // Отладочное сообщение
+
+    } catch (const std::exception& e) {
+        std::cerr << "Send request exception: " << e.what() << std::endl;
+    }
 }
 
 void UdpClient::doReceive() {

@@ -19,10 +19,19 @@ int main() {
 
         // Создание и запуск UDP клиента
         UdpClient client(io_context, server_address, server_port);
+
+        // Добавление отладочных сообщений
+        std::cout << "Sending request to server at " << server_address << ":" << server_port << " with value: " << client_value << std::endl;
+
+        // Отправка запроса
         client.sendRequest(client_value);
 
         // Запуск io_context для обработки асинхронных операций
         io_context.run();
+
+        // Сообщение об успешной отправке
+        std::cout << "Request sent successfully." << std::endl;
+
     } catch (const std::exception& e) {
         std::cerr << "Client Exception: " << e.what() << std::endl;
     }
