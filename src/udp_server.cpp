@@ -1,7 +1,8 @@
 #include "udp_server.hpp"
 #include <iostream>
 #include <random>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
+using namespace boost::placeholders;
 
 UdpServer::UdpServer(boost::asio::io_context& io_context, unsigned short port)
     : socket_(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {

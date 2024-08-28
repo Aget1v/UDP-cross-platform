@@ -2,7 +2,8 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
+using namespace boost::placeholders;
 
 UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port)
     : socket_(io_context) {
