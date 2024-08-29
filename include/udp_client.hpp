@@ -16,7 +16,7 @@ private:
 
     boost::asio::ip::udp::socket socket_;
     boost::asio::ip::udp::endpoint server_endpoint_;
-    std::array<char, 1024> recv_buffer_;
+    std::array<char, 65000> recv_buffer_;
 };
 
 #endif // UDP_CLIENT_HPP

@@ -26,9 +26,6 @@ int main() {
         // Отправка запроса
         client.sendRequest(client_value);
 
-        // Запуск io_context для обработки асинхронных операций
-        io_context.run();
-
         // Сообщение об успешной отправке
         std::cout << "Request sent successfully." << std::endl;
 

@@ -20,16 +20,26 @@ void UdpClient::sendRequest(double value) {
 
         // Отправляем запрос на сервер
         socket_.send_to(boost::asio::buffer(request), server_endpoint_);
+        std::cout << "Request sent: " << request << std::endl;
 
-        std::cout << "Request sent: " << request << std::endl;  // Отладочное сообщение
-
-        // Ожидаем ответ от сервера
-        const size_t max_length = 1024;  // Определяем максимальный размер буфера
-        char reply[max_length];
+        // Ожидаем и получаем данные от сервера
+        const size_t max_length = 65000;
+        std::vector<char> reply(max_length);
         boost::asio::ip::udp::endpoint sender_endpoint;
-        size_t reply_length = socket_.receive_from(boost::asio::buffer(reply, max_length), sender_endpoint);
+        size_t total_bytes_received = 0;
 
-        std::cout << "Reply received: " << std::string(reply, reply_length) << std::endl;  // Отладочное сообщение
+        // Получаем данные до тех пор, пока сервер отправляет их
+        while (true) {
+            size_t reply_length = socket_.receive_from(boost::asio::buffer(reply), sender_endpoint);
+            total_bytes_received += reply_length;
+            std::cout << "Received " << reply_length << " bytes, total: " << total_bytes_received << " bytes" << std::endl;
+            if (reply_length < max_length) {
+                // Предполагаем, что получение завершено
+                break;
+            }
+        }
+
+        std::cout << "Total bytes received: " << total_bytes_received << std::endl;
 
     } catch (const std::exception& e) {
         std::cerr << "Send request exception: " << e.what() << std::endl;
@@ -37,18 +47,22 @@ void UdpClient::sendRequest(double value) {
 }
 
 void UdpClient::doReceive() {
-    socket_.async_receive_from(
-        boost::asio::buffer(recv_buffer_), server_endpoint_,
-        [this](boost::system::error_code ec, std::size_t bytes_recvd) {
-            if (!ec && bytes_recvd > 0) {
-                // Преобразуем полученные данные в массив double
-                std::vector<double> data(bytes_recvd / sizeof(double));
-                std::memcpy(data.data(), recv_buffer_.data(), bytes_recvd);
-                processData(data);
-            } else {
-                std::cerr << "Receive error: " << ec.message() << std::endl;
-            }
-        });
+    try {
+        socket_.async_receive_from(
+            boost::asio::buffer(recv_buffer_), server_endpoint_,
+            [this](boost::system::error_code ec, std::size_t bytes_recvd) {
+                if (!ec && bytes_recvd > 0) {
+                    // Преобразуем полученные данные в массив double
+                    std::vector<double> data(bytes_recvd / sizeof(double));
+                    std::memcpy(data.data(), recv_buffer_.data(), bytes_recvd);
+                    processData(data);
+                } else if (ec) {
+                    std::cerr << "Receive error: " << ec.message() << std::endl;
+                }
+            });
+    } catch (const std::exception& e) {
+        std::cerr << "Exception in doReceive: " << e.what() << std::endl;
+    }
 }
 
 void UdpClient::processData(const std::vector<double>& data) {
