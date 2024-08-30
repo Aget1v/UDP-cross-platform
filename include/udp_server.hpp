@@ -3,6 +3,8 @@
 
 #include <boost/asio.hpp>
 #include <vector>
+#include <string>
+#include <array>
 
 class UdpServer {
 public:
@@ -11,13 +13,15 @@ public:
 
 private:
     void doReceive();
+    void processClient(const std::string& received_message);
     void doSend(const std::vector<double>& data);
+    double generateRandomDouble(double min, double max);
+    std::vector<double> generateDataArray(int X);
 
+    boost::asio::io_context& io_context_;
     boost::asio::ip::udp::socket socket_;
     boost::asio::ip::udp::endpoint remote_endpoint_;
     std::array<char, 1024> recv_buffer_;
-    double generateRandomDouble(double min, double max);
-    std::vector<double> generateDataArray(int X);
 };
 
 #endif // UDP_SERVER_HPP

@@ -1,11 +1,11 @@
 #include "udp_server.hpp"
 #include <iostream>
 #include <random>
-#include <boost/bind/bind.hpp>
-using namespace boost::placeholders;
+#include <thread>
+#include <boost/asio.hpp> // Обязательно для использования Boost.Asio
 
 UdpServer::UdpServer(boost::asio::io_context& io_context, unsigned short port)
-    : socket_(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {
+    : io_context_(io_context), socket_(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {
     doReceive();
 }
 
@@ -21,12 +21,10 @@ void UdpServer::doReceive() {
                 std::string received_message(recv_buffer_.data(), bytes_recvd);
                 std::cout << "Received request from client: " << received_message << std::endl;
 
-                int X = std::stoi(received_message);
-                auto data = generateDataArray(X);
-
-                std::cout << "Generated data array with values in range: [-" << X << ", " << X << "]" << std::endl;
-
-                doSend(data);
+                // Запуск обработки клиента в отдельном потоке
+                std::thread([this, received_message]() {
+                    processClient(received_message);
+                }).detach();
             } else {
                 std::cerr << "Error receiving data: " << ec.message() << std::endl;
             }
@@ -34,17 +32,30 @@ void UdpServer::doReceive() {
         });
 }
 
+void UdpServer::processClient(const std::string& received_message) {
+    int X = std::stoi(received_message);
+    auto data = generateDataArray(X);
+
+    std::cout << "Generated data array with values in range: [-" << X << ", " << X << "]" << std::endl;
+
+    doSend(data);
+}
+
 void UdpServer::doSend(const std::vector<double>& data) {
     const char* data_ptr = reinterpret_cast<const char*>(data.data());
     std::size_t total_size = data.size() * sizeof(double);
-    std::size_t max_packet_size = 65000; // Безопасный размер для одного UDP пакета
+    std::size_t max_packet_size = 64000; // Уменьшено до безопасного размера для UDP пакетов
 
     std::size_t bytes_sent = 0;
 
     while (bytes_sent < total_size) {
         std::size_t chunk_size = std::min(max_packet_size, total_size - bytes_sent);
+
+        // Создание буфера для передачи данных
+        auto buffer = boost::asio::buffer(data_ptr + bytes_sent, chunk_size);
+
         socket_.async_send_to(
-            boost::asio::buffer(data_ptr + bytes_sent, chunk_size), remote_endpoint_,
+            buffer, remote_endpoint_,
             [this, chunk_size, &bytes_sent, total_size](boost::system::error_code ec, std::size_t /*sent*/) {
                 if (!ec) {
                     bytes_sent += chunk_size;
@@ -54,11 +65,10 @@ void UdpServer::doSend(const std::vector<double>& data) {
                 }
             });
 
-        bytes_sent += chunk_size;
+        // Подождем завершения отправки, чтобы не отправлять данные слишком быстро
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
-
-
 
 double UdpServer::generateRandomDouble(double min, double max) {
     std::random_device rd;
