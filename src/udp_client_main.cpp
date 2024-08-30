@@ -1,4 +1,5 @@
 #include <iostream>
+#include<random>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
 #include "udp_client.hpp"
@@ -7,12 +8,17 @@
 using namespace boost::placeholders;
 
 int main() {
+    std::random_device rd;  // Источник истинной энтропии, используется для инициализации генератора
+    std::mt19937 generator(rd());  // Генератор на основе алгоритма Mersenne Twister
+    std::uniform_real_distribution<double> distribution;
+    double randomValue = distribution(generator);
+
     try {
         // Загрузка конфигурации
         Config config("../config/config.ini");
         std::string server_address = config.getString("Client.server_address", "127.0.0.1");
         unsigned short server_port = static_cast<unsigned short>(config.getInt("Server.port", 8080));
-        double client_value = config.getDouble("Client.value", 100.0);
+        double client_value = config.getDouble("Client.value", randomValue);
 
         // Инициализация сетевого контекста
         boost::asio::io_context io_context;

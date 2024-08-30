@@ -1,9 +1,16 @@
 #include "udp_client.hpp"
 #include <iostream>
 #include <algorithm>
+#include <thread>
+#include <sstream>
 #include <fstream>
-#include <boost/bind/bind.hpp>
-using namespace boost::placeholders;
+#include <chrono>
+
+// Инициализация статических членов класса
+std::mutex UdpClient::coutMutex;
+std::mutex UdpClient::dataMutex;
+std::vector<std::string> UdpClient::receivedData;
+size_t UdpClient::totalBytesReceived = 0;
 
 UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port)
     : socket_(io_context) {
@@ -22,57 +29,81 @@ void UdpClient::sendRequest(double value) {
         socket_.send_to(boost::asio::buffer(request), server_endpoint_);
         std::cout << "Request sent: " << request << std::endl;
 
-        // Ожидаем и получаем данные от сервера
-        const size_t max_length = 65000;
-        std::vector<char> reply(max_length);
-        boost::asio::ip::udp::endpoint sender_endpoint;
-        size_t total_bytes_received = 0;
+        // Определяем оптимальное количество потоков
+        int numThreads = determineOptimalThreads();
+        std::vector<std::thread> threads;
 
-        // Получаем данные до тех пор, пока сервер отправляет их
-        while (true) {
-            size_t reply_length = socket_.receive_from(boost::asio::buffer(reply), sender_endpoint);
-            total_bytes_received += reply_length;
-            std::cout << "Received " << reply_length << " bytes, total: " << total_bytes_received << " bytes" << std::endl;
-            if (reply_length < max_length) {
-                // Предполагаем, что получение завершено
-                break;
-            }
+        for (int i = 0; i < numThreads; ++i) {
+            threads.emplace_back(&UdpClient::receiveData, this);
         }
 
-        std::cout << "Total bytes received: " << total_bytes_received << std::endl;
+        // Ждем завершения всех потоков
+        for (auto& t : threads) {
+            t.join();
+        }
 
-    } catch (const std::exception& e) {
-        std::cerr << "Send request exception: " << e.what() << std::endl;
+        // Сортируем полученные данные от большего к меньшему
+        std::lock_guard<std::mutex> lock(dataMutex);
+        std::sort(receivedData.begin(), receivedData.end(), std::greater<std::string>());
+
+        // Записываем отсортированные данные в текстовый файл
+        std::ofstream outFile("sorted_data.txt");
+        for (const auto& data : receivedData) {
+            outFile << data << std::endl;
+        }
+        outFile.close();
+
+    } catch (std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
     }
 }
 
-void UdpClient::doReceive() {
-    try {
-        socket_.async_receive_from(
-            boost::asio::buffer(recv_buffer_), server_endpoint_,
-            [this](boost::system::error_code ec, std::size_t bytes_recvd) {
-                if (!ec && bytes_recvd > 0) {
-                    // Преобразуем полученные данные в массив double
-                    std::vector<double> data(bytes_recvd / sizeof(double));
-                    std::memcpy(data.data(), recv_buffer_.data(), bytes_recvd);
-                    processData(data);
-                } else if (ec) {
-                    std::cerr << "Receive error: " << ec.message() << std::endl;
-                }
-            });
-    } catch (const std::exception& e) {
-        std::cerr << "Exception in doReceive: " << e.what() << std::endl;
+void UdpClient::receiveData() {
+    const size_t max_length = 65000;
+    std::vector<char> reply(max_length);
+
+    while (true) {
+        boost::system::error_code error;
+        size_t len = socket_.receive_from(boost::asio::buffer(reply), server_endpoint_, 0, error);
+
+        if (error && error != boost::asio::error::message_size) {
+            std::lock_guard<std::mutex> lock(coutMutex);
+            std::cerr << "Receive failed: " << error.message() << std::endl;
+            break;
+        }
+
+        // Логирование полученного пакета
+        std::string data(reply.data(), len);
+
+        {
+            std::lock_guard<std::mutex> lock(coutMutex);
+            totalBytesReceived += len;
+            std::cout << "Bytes received: " << len << " Total: " << totalBytesReceived << std::endl;
+        }
+
+        // Добавляем полученные данные в общий вектор
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            receivedData.push_back(data);
+        }
     }
 }
 
-void UdpClient::processData(const std::vector<double>& data) {
-    std::vector<double> sorted_data = data;
-    std::sort(sorted_data.begin(), sorted_data.end(), std::greater<double>());
+int UdpClient::determineOptimalThreads() {
+    // Получаем количество логических ядер
+    unsigned int numCores = std::thread::hardware_concurrency();
 
-    // Запись данных в бинарный файл
-    std::ofstream outfile("../logs/received_data.bin", std::ios::binary);
-    outfile.write(reinterpret_cast<const char*>(sorted_data.data()), sorted_data.size() * sizeof(double));
-    outfile.close();
+    if (numCores == 0) {
+        numCores = 2; // По умолчанию, если количество ядер не определено
+    }
 
-    std::cout << "Data received and saved to ../logs/received_data.bin" << std::endl;
+    // Логируем количество ядер
+    std::cout << "Number of logical cores: " << numCores << std::endl;
+
+    // Допустим, мы добавим еще 50% потоков для обработки I/O задержек
+    int optimalThreads = static_cast<int>(numCores * 1.5);
+
+    std::cout << "Optimal number of threads: " << optimalThreads << std::endl;
+
+    return optimalThreads;
 }
