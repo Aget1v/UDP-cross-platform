@@ -24,7 +24,7 @@ events:
       The output was:
       0
       MSBuild version 17.10.4+10fbfbf2e for .NET Framework
-      Build started 8/29/2024 9:19:46 AM.
+      Build started 8/30/2024 3:02:12 PM.
       
       Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -53,7 +53,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.71
+      Time Elapsed 00:00:00.79
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -79,7 +79,7 @@ events:
       The output was:
       0
       MSBuild version 17.10.4+10fbfbf2e for .NET Framework
-      Build started 8/29/2024 9:19:46 AM.
+      Build started 8/30/2024 3:02:13 PM.
       
       Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -108,7 +108,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.68
+      Time Elapsed 00:00:00.75
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -127,8 +127,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-p0pzgx"
-      binary: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-p0pzgx"
+      source: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-wx4lsp"
+      binary: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-wx4lsp"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -137,40 +137,40 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-p0pzgx'
+        Change Dir: 'C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-wx4lsp'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_258ea.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_0cde3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.10.4+10fbfbf2e for .NET Framework
-        Build started 8/29/2024 9:19:47 AM.
+        Build started 8/30/2024 3:02:14 PM.
         
-        Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p0pzgx\\cmTC_258ea.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wx4lsp\\cmTC_0cde3.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_258ea.dir\\Debug\\".
+          Creating directory "cmTC_0cde3.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p0pzgx\\Debug\\".
-          Creating directory "cmTC_258ea.dir\\Debug\\cmTC_258ea.tlog\\".
+          Creating directory "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wx4lsp\\Debug\\".
+          Creating directory "cmTC_0cde3.dir\\Debug\\cmTC_0cde3.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_258ea.dir\\Debug\\cmTC_258ea.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_258ea.dir\\Debug\\cmTC_258ea.tlog\\unsuccessfulbuild".
+          Creating "cmTC_0cde3.dir\\Debug\\cmTC_0cde3.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_0cde3.dir\\Debug\\cmTC_0cde3.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_258ea.dir\\Debug\\\\" /Fd"cmTC_258ea.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0cde3.dir\\Debug\\\\" /Fd"cmTC_0cde3.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.40.33813 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_258ea.dir\\Debug\\\\" /Fd"cmTC_258ea.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0cde3.dir\\Debug\\\\" /Fd"cmTC_0cde3.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p0pzgx\\Debug\\cmTC_258ea.exe" /INCREMENTAL /ILK:"cmTC_258ea.dir\\Debug\\cmTC_258ea.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-p0pzgx/Debug/cmTC_258ea.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-p0pzgx/Debug/cmTC_258ea.lib" /MACHINE:X64  /machine:x64 cmTC_258ea.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_258ea.vcxproj -> C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p0pzgx\\Debug\\cmTC_258ea.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wx4lsp\\Debug\\cmTC_0cde3.exe" /INCREMENTAL /ILK:"cmTC_0cde3.dir\\Debug\\cmTC_0cde3.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-wx4lsp/Debug/cmTC_0cde3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-wx4lsp/Debug/cmTC_0cde3.lib" /MACHINE:X64  /machine:x64 cmTC_0cde3.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_0cde3.vcxproj -> C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wx4lsp\\Debug\\cmTC_0cde3.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_258ea.dir\\Debug\\cmTC_258ea.tlog\\unsuccessfulbuild".
-          Touching "cmTC_258ea.dir\\Debug\\cmTC_258ea.tlog\\cmTC_258ea.lastbuildstate".
-        Done Building Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p0pzgx\\cmTC_258ea.vcxproj" (default targets).
+          Deleting file "cmTC_0cde3.dir\\Debug\\cmTC_0cde3.tlog\\unsuccessfulbuild".
+          Touching "cmTC_0cde3.dir\\Debug\\cmTC_0cde3.tlog\\cmTC_0cde3.lastbuildstate".
+        Done Building Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wx4lsp\\cmTC_0cde3.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.65
+        Time Elapsed 00:00:00.73
         
       exitCode: 0
   -
@@ -210,8 +210,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-71ma9t"
-      binary: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-71ma9t"
+      source: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-e1d802"
+      binary: "C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-e1d802"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -221,40 +221,40 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-71ma9t'
+        Change Dir: 'C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-e1d802'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_bc7ff.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_cae35.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.10.4+10fbfbf2e for .NET Framework
-        Build started 8/29/2024 9:19:48 AM.
+        Build started 8/30/2024 3:02:15 PM.
         
-        Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-71ma9t\\cmTC_bc7ff.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-e1d802\\cmTC_cae35.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_bc7ff.dir\\Debug\\".
+          Creating directory "cmTC_cae35.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-71ma9t\\Debug\\".
-          Creating directory "cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.tlog\\".
+          Creating directory "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-e1d802\\Debug\\".
+          Creating directory "cmTC_cae35.dir\\Debug\\cmTC_cae35.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.tlog\\unsuccessfulbuild".
+          Creating "cmTC_cae35.dir\\Debug\\cmTC_cae35.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_cae35.dir\\Debug\\cmTC_cae35.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_bc7ff.dir\\Debug\\\\" /Fd"cmTC_bc7ff.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_cae35.dir\\Debug\\\\" /Fd"cmTC_cae35.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.40.33813 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_bc7ff.dir\\Debug\\\\" /Fd"cmTC_bc7ff.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_cae35.dir\\Debug\\\\" /Fd"cmTC_cae35.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-71ma9t\\Debug\\cmTC_bc7ff.exe" /INCREMENTAL /ILK:"cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-71ma9t/Debug/cmTC_bc7ff.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-71ma9t/Debug/cmTC_bc7ff.lib" /MACHINE:X64  /machine:x64 cmTC_bc7ff.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_bc7ff.vcxproj -> C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-71ma9t\\Debug\\cmTC_bc7ff.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-e1d802\\Debug\\cmTC_cae35.exe" /INCREMENTAL /ILK:"cmTC_cae35.dir\\Debug\\cmTC_cae35.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-e1d802/Debug/cmTC_cae35.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/georg/Desktop/TT/UDP-cross-platform/build/CMakeFiles/CMakeScratch/TryCompile-e1d802/Debug/cmTC_cae35.lib" /MACHINE:X64  /machine:x64 cmTC_cae35.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_cae35.vcxproj -> C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-e1d802\\Debug\\cmTC_cae35.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.tlog\\unsuccessfulbuild".
-          Touching "cmTC_bc7ff.dir\\Debug\\cmTC_bc7ff.tlog\\cmTC_bc7ff.lastbuildstate".
-        Done Building Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-71ma9t\\cmTC_bc7ff.vcxproj" (default targets).
+          Deleting file "cmTC_cae35.dir\\Debug\\cmTC_cae35.tlog\\unsuccessfulbuild".
+          Touching "cmTC_cae35.dir\\Debug\\cmTC_cae35.tlog\\cmTC_cae35.lastbuildstate".
+        Done Building Project "C:\\Users\\georg\\Desktop\\TT\\UDP-cross-platform\\build\\CMakeFiles\\CMakeScratch\\TryCompile-e1d802\\cmTC_cae35.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.70
+        Time Elapsed 00:00:00.77
         
       exitCode: 0
   -
