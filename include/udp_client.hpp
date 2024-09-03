@@ -3,25 +3,26 @@
 
 #include <boost/asio.hpp>
 #include <vector>
-#include <mutex>
 #include <string>
+#include <mutex>
+#include <thread>
 
 class UdpClient {
 public:
     UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port);
     void sendRequest(double value);
-    void receiveData();
-    static int determineOptimalThreads(); // Функция для определения оптимального количества потоков
 
 private:
-    boost::asio::ip::udp::socket socket_;
-    boost::asio::ip::udp::endpoint server_endpoint_;
+    void receiveData();
+    int determineOptimalThreads();
 
-    // Мьютексы и вектор для работы с многопоточностью
     static std::mutex coutMutex;
     static std::mutex dataMutex;
-    static std::vector<double> receivedData;
-    static size_t totalBytesReceived; // Общее количество полученных байт
+    static std::vector<double> receivedData; // Обновлено на std::vector<double>
+    static size_t totalBytesReceived;
+    boost::asio::ip::udp::socket socket_;
+    boost::asio::ip::udp::endpoint server_endpoint_;
+    unsigned short port_; // Добавлено член данных для порта
 };
 
 #endif // UDP_CLIENT_HPP

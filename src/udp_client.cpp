@@ -1,21 +1,40 @@
-#include "udp_client.hpp"
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
+#include <algorithm>
 #include <thread>
 #include <mutex>
-#include <sstream>
-#include <fstream>
-#include <algorithm>
 #include <boost/asio.hpp>
 
-// Инициализация статических членов класса
+class UdpClient {
+public:
+    UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port);
+    void sendRequest(double value);
+
+private:
+    void receiveData();
+    int determineOptimalThreads();
+
+    static std::mutex coutMutex;
+    static std::mutex dataMutex;
+    static std::vector<double> receivedData;
+    static size_t totalBytesReceived;
+    boost::asio::ip::udp::socket socket_;
+    boost::asio::ip::udp::endpoint server_endpoint_;
+    unsigned short port_;
+};
+
 std::mutex UdpClient::coutMutex;
 std::mutex UdpClient::dataMutex;
 std::vector<double> UdpClient::receivedData;
 size_t UdpClient::totalBytesReceived = 0;
 
 UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port)
-    : socket_(io_context) {
+    : socket_(io_context), port_(port) {
     boost::asio::ip::udp::resolver resolver(io_context);
     server_endpoint_ = *resolver.resolve(boost::asio::ip::udp::v4(), host, std::to_string(port)).begin();
     socket_.open(boost::asio::ip::udp::v4());
@@ -23,11 +42,10 @@ UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& hos
 
 void UdpClient::sendRequest(double value) {
     try {
-        // Отправляем число в бинарном формате
+        // Отправляем значение в бинарном формате
         boost::asio::streambuf buf;
         std::ostream os(&buf);
         os.write(reinterpret_cast<const char*>(&value), sizeof(value));
-
         socket_.send_to(buf.data(), server_endpoint_);
         std::cout << "Request sent: " << value << std::endl;
 
@@ -48,12 +66,32 @@ void UdpClient::sendRequest(double value) {
         std::lock_guard<std::mutex> lock(dataMutex);
         std::sort(receivedData.begin(), receivedData.end(), std::greater<double>());
 
+        // Генерируем уникальное имя файла
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+        std::tm now_tm = *std::localtime(&now_time_t);
+        
+        std::ostringstream fileNameStream;
+        fileNameStream << "data_" 
+                       << std::put_time(&now_tm, "%Y%m%d_%H%M%S") 
+                       << "_" << port_ << ".bin";
+        std::string fileName = fileNameStream.str();
+
+        std::cout << "Generated file name: " << fileName << std::endl;
+
         // Записываем отсортированные данные в бинарный файл
-        std::ofstream outFile("sorted_data.bin", std::ios::binary);
-        for (const auto& data : receivedData) {
-            outFile.write(reinterpret_cast<const char*>(&data), sizeof(data));
+        std::ofstream outFile(fileName, std::ios::binary);
+        if (outFile) {
+            if (receivedData.empty()) {
+                std::cerr << "No data to write to file." << std::endl;
+            } else {
+                outFile.write(reinterpret_cast<const char*>(receivedData.data()), receivedData.size() * sizeof(double));
+                outFile.close();
+                std::cout << "Data successfully written to file: " << fileName << std::endl;
+            }
+        } else {
+            std::cerr << "Error opening file for writing: " << fileName << std::endl;
         }
-        outFile.close();
 
     } catch (std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
@@ -75,17 +113,20 @@ void UdpClient::receiveData() {
         }
 
         // Логирование полученного пакета
+        std::vector<double> data(len / sizeof(double));
+        std::memcpy(data.data(), reply.data(), len);
+
         {
             std::lock_guard<std::mutex> lock(coutMutex);
             totalBytesReceived += len;
             std::cout << "Bytes received: " << len << " Total: " << totalBytesReceived << std::endl;
         }
 
-        // Декодируем данные как double
-        std::lock_guard<std::mutex> lock(dataMutex);
-        double receivedValue;
-        std::memcpy(&receivedValue, reply.data(), sizeof(receivedValue));
-        receivedData.push_back(receivedValue);
+        // Добавляем полученные данные в общий вектор
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            receivedData.insert(receivedData.end(), data.begin(), data.end());
+        }
     }
 }
 

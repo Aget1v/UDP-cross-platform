@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 #include <thread>
-#include <cstring> // для std::memcpy
+#include <cstring>  // Для std::memcpy
 
 UdpServer::UdpServer(boost::asio::io_context& io_context, unsigned short port)
     : io_context_(io_context), socket_(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {
@@ -18,23 +18,26 @@ void UdpServer::doReceive() {
         boost::asio::buffer(recv_buffer_), remote_endpoint_,
         [this](boost::system::error_code ec, std::size_t bytes_recvd) {
             if (!ec && bytes_recvd > 0) {
-                // Обработка полученных данных как double
-                double received_value;
-                std::memcpy(&received_value, recv_buffer_.data(), sizeof(received_value));
-                std::string client_id = remote_endpoint_.address().to_string() + ":" + std::to_string(remote_endpoint_.port());
-                
-                // Сохраняем адрес клиента в мапе
-                client_endpoints_[client_id] = remote_endpoint_;
+                if (bytes_recvd == sizeof(double)) {
+                    double received_value;
+                    std::memcpy(&received_value, recv_buffer_.data(), sizeof(received_value));
 
-                // Вывод IP и порта клиента
-                std::cout << "Received request from client: " << received_value << std::endl;
-                std::cout << "Client IP: " << remote_endpoint_.address().to_string() 
-                          << " Port: " << remote_endpoint_.port() << std::endl;
+                    std::string client_id = remote_endpoint_.address().to_string() + ":" + std::to_string(remote_endpoint_.port());
+                    
+                    // Сохраняем адрес клиента в мапе
+                    client_endpoints_[client_id] = remote_endpoint_;
 
-                // Запуск обработки клиента в отдельном потоке
-                std::thread([this, received_value, client_id]() {
-                    processClient(received_value, client_id);
-                }).detach();
+                    std::cout << "Received request from client: " << received_value << std::endl;
+                    std::cout << "Client IP: " << remote_endpoint_.address().to_string() 
+                              << " Port: " << remote_endpoint_.port() << std::endl;
+
+                    // Запуск обработки клиента в отдельном потоке
+                    std::thread([this, received_value, client_id]() {
+                        processClient(received_value, client_id);
+                    }).detach();
+                } else {
+                    std::cerr << "Unexpected data size: " << bytes_recvd << std::endl;
+                }
             } else {
                 std::cerr << "Error receiving data: " << ec.message() << std::endl;
             }
@@ -45,6 +48,7 @@ void UdpServer::doReceive() {
 void UdpServer::processClient(double received_value, const std::string& client_id) {
     auto data = generateDataArray(received_value);
 
+    std::cout << "Received value: " << received_value << std::endl;
     std::cout << "Generated data array with values in range: [-" << received_value << ", " << received_value << "]" << std::endl;
 
     doSend(data, client_id);
@@ -79,7 +83,6 @@ void UdpServer::doSend(const std::vector<double>& data, const std::string& clien
                 }
             });
 
-        // Используйте реальную синхронизацию или таймер вместо `std::this_thread::sleep_for` в асинхронном коде
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
