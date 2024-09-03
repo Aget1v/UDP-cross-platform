@@ -1,15 +1,17 @@
 #include "udp_client.hpp"
 #include <iostream>
-#include <algorithm>
+#include <vector>
 #include <thread>
+#include <mutex>
 #include <sstream>
 #include <fstream>
-#include <chrono>
+#include <algorithm>
+#include <boost/asio.hpp>
 
 // Инициализация статических членов класса
 std::mutex UdpClient::coutMutex;
 std::mutex UdpClient::dataMutex;
-std::vector<std::string> UdpClient::receivedData;
+std::vector<double> UdpClient::receivedData;
 size_t UdpClient::totalBytesReceived = 0;
 
 UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& host, unsigned short port)
@@ -21,13 +23,13 @@ UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& hos
 
 void UdpClient::sendRequest(double value) {
     try {
-        std::ostringstream request_stream;
-        request_stream << value;
-        std::string request = request_stream.str();
+        // Отправляем число в бинарном формате
+        boost::asio::streambuf buf;
+        std::ostream os(&buf);
+        os.write(reinterpret_cast<const char*>(&value), sizeof(value));
 
-        // Отправляем запрос на сервер
-        socket_.send_to(boost::asio::buffer(request), server_endpoint_);
-        std::cout << "Request sent: " << request << std::endl;
+        socket_.send_to(buf.data(), server_endpoint_);
+        std::cout << "Request sent: " << value << std::endl;
 
         // Определяем оптимальное количество потоков
         int numThreads = determineOptimalThreads();
@@ -44,12 +46,12 @@ void UdpClient::sendRequest(double value) {
 
         // Сортируем полученные данные от большего к меньшему
         std::lock_guard<std::mutex> lock(dataMutex);
-        std::sort(receivedData.begin(), receivedData.end(), std::greater<std::string>());
+        std::sort(receivedData.begin(), receivedData.end(), std::greater<double>());
 
-        // Записываем отсортированные данные в текстовый файл
-        std::ofstream outFile("sorted_data.txt");
+        // Записываем отсортированные данные в бинарный файл
+        std::ofstream outFile("sorted_data.bin", std::ios::binary);
         for (const auto& data : receivedData) {
-            outFile << data << std::endl;
+            outFile.write(reinterpret_cast<const char*>(&data), sizeof(data));
         }
         outFile.close();
 
@@ -73,19 +75,17 @@ void UdpClient::receiveData() {
         }
 
         // Логирование полученного пакета
-        std::string data(reply.data(), len);
-
         {
             std::lock_guard<std::mutex> lock(coutMutex);
             totalBytesReceived += len;
             std::cout << "Bytes received: " << len << " Total: " << totalBytesReceived << std::endl;
         }
 
-        // Добавляем полученные данные в общий вектор
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-            receivedData.push_back(data);
-        }
+        // Декодируем данные как double
+        std::lock_guard<std::mutex> lock(dataMutex);
+        double receivedValue;
+        std::memcpy(&receivedValue, reply.data(), sizeof(receivedValue));
+        receivedData.push_back(receivedValue);
     }
 }
 

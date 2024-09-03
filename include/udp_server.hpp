@@ -13,7 +13,7 @@ public:
 
 private:
     void doReceive();
-    void processClient(const std::string& received_message, const std::string& client_id); // Обновлено
+    void processClient(double received_value, const std::string& client_id);
     void doSend(const std::vector<double>& data, const std::string& client_id); // Обновлено
     double generateRandomDouble(double min, double max);
     std::vector<double> generateDataArray(double X);

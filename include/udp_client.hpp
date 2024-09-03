@@ -20,7 +20,7 @@ private:
     // Мьютексы и вектор для работы с многопоточностью
     static std::mutex coutMutex;
     static std::mutex dataMutex;
-    static std::vector<std::string> receivedData;
+    static std::vector<double> receivedData;
     static size_t totalBytesReceived; // Общее количество полученных байт
 };
 
