@@ -19,7 +19,11 @@ void UdpServer::doReceive() {
         [this](boost::system::error_code ec, std::size_t bytes_recvd) {
             if (!ec && bytes_recvd > 0) {
                 std::string received_message(recv_buffer_.data(), bytes_recvd);
+                
+                // Вывод IP и порта клиента
                 std::cout << "Received request from client: " << received_message << std::endl;
+                std::cout << "Client IP: " << remote_endpoint_.address().to_string() 
+                          << " Port: " << remote_endpoint_.port() << std::endl;
 
                 // Запуск обработки клиента в отдельном потоке
                 std::thread([this, received_message]() {
