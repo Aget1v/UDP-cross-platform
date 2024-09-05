@@ -42,14 +42,14 @@ UdpClient::UdpClient(boost::asio::io_context& io_context, const std::string& hos
 
 void UdpClient::sendRequest(double value) {
     try {
-        // Отправляем значение в бинарном формате
+        // data sent
         boost::asio::streambuf buf;
         std::ostream os(&buf);
         os.write(reinterpret_cast<const char*>(&value), sizeof(value));
         socket_.send_to(buf.data(), server_endpoint_);
         std::cout << "Request sent: " << value << std::endl;
 
-        // Определяем оптимальное количество потоков
+        // determining the optimal number of threads
         int numThreads = determineOptimalThreads();
         std::vector<std::thread> threads;
 
@@ -57,16 +57,15 @@ void UdpClient::sendRequest(double value) {
             threads.emplace_back(&UdpClient::receiveData, this);
         }
 
-        // Ждем завершения всех потоков
         for (auto& t : threads) {
             t.join();
         }
 
-        // Сортируем полученные данные от большего к меньшему
+        // sorting part
         std::lock_guard<std::mutex> lock(dataMutex);
         std::sort(receivedData.begin(), receivedData.end(), std::greater<double>());
 
-        // Генерируем уникальное имя файла
+        // data file generation 
         auto now = std::chrono::system_clock::now();
         auto now_time_t = std::chrono::system_clock::to_time_t(now);
         std::tm now_tm = *std::localtime(&now_time_t);
@@ -79,7 +78,7 @@ void UdpClient::sendRequest(double value) {
 
         std::cout << "Generated file name: " << fileName << std::endl;
 
-        // Записываем отсортированные данные в бинарный файл
+        // write to file
         std::ofstream outFile(fileName, std::ios::binary);
         if (outFile) {
             if (receivedData.empty()) {
@@ -112,7 +111,7 @@ void UdpClient::receiveData() {
             break;
         }
 
-        // Логирование полученного пакета
+        // logging the received packet
         std::vector<double> data(len / sizeof(double));
         std::memcpy(data.data(), reply.data(), len);
 
@@ -122,7 +121,7 @@ void UdpClient::receiveData() {
             std::cout << "Bytes received: " << len << " Total: " << totalBytesReceived << std::endl;
         }
 
-        // Добавляем полученные данные в общий вектор
+        // adding received data to vector
         {
             std::lock_guard<std::mutex> lock(dataMutex);
             receivedData.insert(receivedData.end(), data.begin(), data.end());
@@ -135,13 +134,12 @@ int UdpClient::determineOptimalThreads() {
     unsigned int numCores = std::thread::hardware_concurrency();
 
     if (numCores == 0) {
-        numCores = 2; // По умолчанию, если количество ядер не определено
+        numCores = 2; // for default
     }
 
-    // Логируем количество ядер
     std::cout << "Number of logical cores: " << numCores << std::endl;
 
-    // Допустим, мы добавим еще 50% потоков для обработки I/O задержек
+    // to handle delays
     int optimalThreads = static_cast<int>(numCores * 1.5);
 
     std::cout << "Optimal number of threads: " << optimalThreads << std::endl;

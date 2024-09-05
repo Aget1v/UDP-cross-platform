@@ -18,11 +18,11 @@ private:
 
     static std::mutex coutMutex;
     static std::mutex dataMutex;
-    static std::vector<double> receivedData; // Обновлено на std::vector<double>
+    static std::vector<double> receivedData; 
     static size_t totalBytesReceived;
     boost::asio::ip::udp::socket socket_;
     boost::asio::ip::udp::endpoint server_endpoint_;
-    unsigned short port_; // Добавлено член данных для порта
+    unsigned short port_; 
 };
 
 #endif // UDP_CLIENT_HPP

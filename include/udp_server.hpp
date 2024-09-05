@@ -14,7 +14,7 @@ public:
 private:
     void doReceive();
     void processClient(double received_value, const std::string& client_id);
-    void doSend(const std::vector<double>& data, const std::string& client_id); // Обновлено
+    void doSend(const std::vector<double>& data, const std::string& client_id); 
     double generateRandomDouble(double min, double max);
     std::vector<double> generateDataArray(double X);
 
@@ -23,7 +23,6 @@ private:
     boost::asio::ip::udp::endpoint remote_endpoint_;
     std::array<char, 1024> recv_buffer_;
 
-    // Добавляем мапу для хранения endpoint клиентов
     std::unordered_map<std::string, boost::asio::ip::udp::endpoint> client_endpoints_;
 };
 

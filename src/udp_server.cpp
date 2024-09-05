@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 #include <thread>
-#include <cstring>  // Для std::memcpy
+#include <cstring>  // std::memcpy
 
 UdpServer::UdpServer(boost::asio::io_context& io_context, unsigned short port)
     : io_context_(io_context), socket_(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {
@@ -24,14 +24,14 @@ void UdpServer::doReceive() {
 
                     std::string client_id = remote_endpoint_.address().to_string() + ":" + std::to_string(remote_endpoint_.port());
                     
-                    // Сохраняем адрес клиента в мапе
+                    // saving client address 
                     client_endpoints_[client_id] = remote_endpoint_;
 
                     std::cout << "Received request from client: " << received_value << std::endl;
                     std::cout << "Client IP: " << remote_endpoint_.address().to_string() 
                               << " Port: " << remote_endpoint_.port() << std::endl;
 
-                    // Запуск обработки клиента в отдельном потоке
+                    // client processing in a separate thread
                     std::thread([this, received_value, client_id]() {
                         processClient(received_value, client_id);
                     }).detach();
@@ -61,7 +61,7 @@ void UdpServer::doSend(const std::vector<double>& data, const std::string& clien
 
     std::size_t bytes_sent = 0;
 
-    // Получаем endpoint клиента из мапы
+    // client endpoint from map
     if (client_endpoints_.find(client_id) == client_endpoints_.end()) {
         std::cerr << "Client ID not found!" << std::endl;
         return;

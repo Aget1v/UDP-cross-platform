@@ -7,21 +7,21 @@ using namespace boost::placeholders;
 
 int main() {
     try {
-        // Загрузка конфигурации с указанием пути к файлу
+        // confing file load
         Config config("../config/config.ini");
 
-        // Получение конфигурационных параметров
+        // config parameters receiving
         unsigned short server_port = static_cast<unsigned short>(config.getInt("Server.port", 8080));
         std::string server_address = config.getString("Server.address", "127.0.0.1");
 
-        // Инициализация сетевого контекста
+        // initializing the network context
         boost::asio::io_context io_context;
 
-        // Создание и запуск UDP сервера
+        // server start
         UdpServer server(io_context, server_port);
         server.start();
 
-        // Запуск io_context для обработки асинхронных операций
+        // io_context to handle asynchronous operations
         io_context.run();
     } catch (const std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;

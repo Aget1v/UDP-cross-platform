@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-// Конструктор, который загружает конфигурационные данные из файла
+// constructor loads configuration data from a file
 Config::Config(const std::string& filename) {
     std::ifstream file(filename);
     if (file.is_open()) {
@@ -18,7 +18,7 @@ Config::Config(const std::string& filename) {
     }
 }
 
-// Метод для получения целочисленного значения по ключу
+// to get integer value by key
 int Config::getInt(const std::string& key, int defaultValue) const {
     auto it = configData.find(key);
     if (it != configData.end()) {
@@ -27,7 +27,7 @@ int Config::getInt(const std::string& key, int defaultValue) const {
     return defaultValue;
 }
 
-// Метод для получения значения с плавающей точкой по ключу
+// to get a floating point value by key
 double Config::getDouble(const std::string& key, double defaultValue) const {
     auto it = configData.find(key);
     if (it != configData.end()) {
@@ -36,7 +36,7 @@ double Config::getDouble(const std::string& key, double defaultValue) const {
     return defaultValue;
 }
 
-// Метод для получения строкового значения по ключу
+// to get string value by key
 std::string Config::getString(const std::string& key, const std::string& defaultValue) const {
     auto it = configData.find(key);
     if (it != configData.end()) {
